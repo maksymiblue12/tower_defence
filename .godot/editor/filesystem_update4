@@ -1,0 +1,5 @@
+res://scenes/level/level.tscn
+res://scenes/enemy/enemy_color.gdshader
+res://scenes/level/non_placable_areas.gdshader
+res://scenes/level/tower_ranges.gdshader
+res://game_state.gd
