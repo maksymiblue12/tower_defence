@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://jr5f17av6v76"]
+
+[ext_resource type="Texture2D" uid="uid://1rdtqopflmm4" path="res://assets/full.png" id="1_ghgvu"]
+
+[node name="Full" type="TextureRect" unique_id=95194060]
+texture_filter = 1
+texture = ExtResource("1_ghgvu")
+stretch_mode = 3

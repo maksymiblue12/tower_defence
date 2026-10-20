@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <!-- The nozzle points to the RIGHT: in Godot, rotation 0 means "looking right". -->
+  <rect x="28" y="25" width="34" height="14" rx="3" fill="#e3e8ee" stroke="#1b2129" stroke-width="3"/>
+  <rect x="52" y="23" width="10" height="18" rx="2" fill="#f4c542" stroke="#1b2129" stroke-width="3"/>
+  <circle cx="32" cy="32" r="15" fill="#3e4a59" stroke="#1b2129" stroke-width="3"/>
+  <circle cx="32" cy="32" r="5" fill="#f4c542"/>
+</svg>

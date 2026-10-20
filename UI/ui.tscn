@@ -1,0 +1,166 @@
+[gd_scene format=3 uid="uid://deqmm5f2g2fo0"]
+
+[ext_resource type="Script" uid="uid://bmnoubv147oy0" path="res://UI/ui.gd" id="1_2fwl4"]
+[ext_resource type="PackedScene" uid="uid://jr5f17av6v76" path="res://UI/full.tscn" id="2_dajm1"]
+
+[sub_resource type="Animation" id="Animation_e6gg6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Money:theme_override_font_sizes/font_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [20]
+}
+
+[sub_resource type="Animation" id="Animation_hat8c"]
+resource_name = "change_money"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Money:theme_override_font_sizes/font_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [25, 20]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3sbvi"]
+_data = {
+&"RESET": SubResource("Animation_e6gg6"),
+&"change_money": SubResource("Animation_hat8c")
+}
+
+[sub_resource type="Animation" id="Animation_2fwl4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TowerCost:theme_override_font_sizes/font_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [20]
+}
+
+[sub_resource type="Animation" id="Animation_dajm1"]
+resource_name = "change_money"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TowerCost:theme_override_font_sizes/font_size")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [25, 20]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_e6gg6"]
+_data = {
+&"RESET": SubResource("Animation_2fwl4"),
+&"change_tower_cost": SubResource("Animation_dajm1")
+}
+
+[node name="UI" type="CanvasLayer" unique_id=1628739931]
+script = ExtResource("1_2fwl4")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=731813706]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="HeartContainer" type="HBoxContainer" parent="MarginContainer" unique_id=2113562249]
+layout_mode = 2
+size_flags_vertical = 0
+alignment = 2
+
+[node name="Full" parent="MarginContainer/HeartContainer" unique_id=95194060 instance=ExtResource("2_dajm1")]
+layout_mode = 2
+
+[node name="Full2" parent="MarginContainer/HeartContainer" unique_id=32854431 instance=ExtResource("2_dajm1")]
+layout_mode = 2
+
+[node name="Full3" parent="MarginContainer/HeartContainer" unique_id=1309415840 instance=ExtResource("2_dajm1")]
+layout_mode = 2
+
+[node name="Full4" parent="MarginContainer/HeartContainer" unique_id=1341869636 instance=ExtResource("2_dajm1")]
+layout_mode = 2
+
+[node name="Full5" parent="MarginContainer/HeartContainer" unique_id=730461988 instance=ExtResource("2_dajm1")]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=548224152]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="TopBarLeft" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=686637494]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Money" type="Label" parent="MarginContainer/VBoxContainer/TopBarLeft" unique_id=704375636]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.7019608, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 20
+text = "0$"
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MarginContainer/VBoxContainer/TopBarLeft" unique_id=1050395505]
+libraries/ = SubResource("AnimationLibrary_3sbvi")
+
+[node name="TopBarLeft2" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=544351917]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TopBarLeft2" unique_id=2026651107]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.7019608, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 20
+text = "Tower cost: "
+vertical_alignment = 1
+
+[node name="TowerCost" type="Label" parent="MarginContainer/VBoxContainer/TopBarLeft2" unique_id=438110730]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(1, 0.7019608, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 20
+text = "5$"
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MarginContainer/VBoxContainer/TopBarLeft2" unique_id=860387755]
+libraries/ = SubResource("AnimationLibrary_e6gg6")
+
+[node name="BottomBarRight" type="HBoxContainer" parent="MarginContainer" unique_id=104019790]
+layout_mode = 2
+size_flags_vertical = 8
+alignment = 2
+
+[node name="StartWave" type="Button" parent="MarginContainer/BottomBarRight" unique_id=1736300176]
+layout_mode = 2
+text = "Icon"

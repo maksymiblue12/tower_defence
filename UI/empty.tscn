@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://bgftm1k58l0qs"]
+
+[ext_resource type="Texture2D" uid="uid://dmemqgtt31cic" path="res://assets/empty.png" id="1_0a20r"]
+
+[node name="Empty" type="TextureRect" unique_id=1576897620]
+texture_filter = 1
+texture = ExtResource("1_0a20r")
+stretch_mode = 3

@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://ciqxidjw5a5ni"]
+
+[ext_resource type="Script" uid="uid://b4k8nyq4ivn2j" path="res://scenes/tower/tower.gd" id="1_stebd"]
+[ext_resource type="Texture2D" uid="uid://b0andkjlwkyli" path="res://assets/tower_base.svg" id="2_jbe1c"]
+[ext_resource type="Texture2D" uid="uid://dbgqa1tss2wol" path="res://assets/tower_turret.svg" id="3_vxmma"]
+
+[node name="Tower" type="Node2D" unique_id=1489529174 groups=["tower"]]
+z_index = 2
+script = ExtResource("1_stebd")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1203344398]
+texture = ExtResource("2_jbe1c")
+
+[node name="Turret" type="Node2D" parent="." unique_id=896386939]
+
+[node name="Sprite" type="Sprite2D" parent="Turret" unique_id=1904187295]
+texture = ExtResource("3_vxmma")
+
+[node name="Barrel" type="Marker2D" parent="Turret" unique_id=1192382601]
+position = Vector2(30, 0)
+
+[node name="ShootTimer" type="Timer" parent="." unique_id=283796036]
+autostart = true
+
+[connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]

@@ -1,0 +1,75 @@
+[gd_scene format=3 uid="uid://c24nq12ku6vpi"]
+
+[ext_resource type="Script" uid="uid://bhfqctkj7lqoh" path="res://scenes/enemy/enemy.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://bm1cs561bnajb" path="res://assets/enemy_body.svg" id="2_40wdo"]
+[ext_resource type="Shader" uid="uid://dqukfm033a8v6" path="res://scenes/enemy/enemy_color.gdshader" id="2_tjssy"]
+[ext_resource type="Texture2D" uid="uid://cgok05wiqbqx4" path="res://assets/enemy_eyes.svg" id="3_tjssy"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gmnah"]
+shader = ExtResource("2_tjssy")
+shader_parameter/hue = 2.0
+shader_parameter/brightness_modifier = 1.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hitbox"]
+radius = 20.0
+
+[sub_resource type="Animation" id="Animation_a3pup"]
+resource_name = "RESET"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_40wdo"]
+resource_name = "damage"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(2.1168277, 2.1168277, 2.1168277, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tjssy"]
+_data = {
+&"RESET": SubResource("Animation_a3pup"),
+&"damage": SubResource("Animation_40wdo")
+}
+
+[node name="Enemy" type="PathFollow2D" unique_id=308481409 groups=["enemy"]]
+z_index = 2
+rotates = false
+loop = false
+script = ExtResource("1_script")
+
+[node name="Body" type="Sprite2D" parent="." unique_id=738359645]
+material = SubResource("ShaderMaterial_gmnah")
+texture = ExtResource("2_40wdo")
+
+[node name="Eyes" type="Sprite2D" parent="." unique_id=453556619]
+texture = ExtResource("3_tjssy")
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=1930956057]
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=491069444]
+shape = SubResource("CircleShape2D_hitbox")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1813437700]
+libraries/ = SubResource("AnimationLibrary_tjssy")

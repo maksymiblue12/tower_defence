@@ -1,0 +1,81 @@
+[gd_scene format=3 uid="uid://jvd1bjg58e4o"]
+
+[ext_resource type="Script" uid="uid://c4rcrkxblithx" path="res://scenes/level/level.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://ciqxidjw5a5ni" path="res://scenes/tower/tower.tscn" id="3_i166f"]
+[ext_resource type="PackedScene" uid="uid://deqmm5f2g2fo0" path="res://UI/ui.tscn" id="3_qkmgm"]
+[ext_resource type="Shader" uid="uid://c1njjdco10gcb" path="res://scenes/level/non_placable_areas.gdshader" id="4_hnne4"]
+[ext_resource type="Shader" uid="uid://86yiattrl10j" path="res://scenes/level/tower_ranges.gdshader" id="4_qkmgm"]
+[ext_resource type="Script" uid="uid://dn1yh64pa02yd" path="res://scenes/level/tower_ranges.gd" id="5_hnne4"]
+[ext_resource type="Script" uid="uid://dp5070q35xxiw" path="res://scenes/level/non_placable_areas.gd" id="6_vpf64"]
+
+[sub_resource type="Curve2D" id="Curve2D_path"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -40, 130, 0, 0, 0, 0, 280, 130, 0, 0, 0, 0, 280, 500, 0, 0, 0, 0, 620, 500, 0, 0, 0, 0, 620, 170, 0, 0, 0, 0, 920, 170, 0, 0, 0, 0, 920, 520, 0, 0, 0, 0, 1200, 520)
+}
+point_count = 8
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wcngd"]
+shader = ExtResource("4_qkmgm")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hnne4"]
+shader = ExtResource("4_hnne4")
+
+[node name="Level" type="Node2D" unique_id=31827107]
+script = ExtResource("1_script")
+
+[node name="UI" parent="." unique_id=1628739931 instance=ExtResource("3_qkmgm")]
+
+[node name="tower" parent="." unique_id=1489529174 instance=ExtResource("3_i166f")]
+position = Vector2(450, 350)
+
+[node name="PathLine" type="Line2D" parent="." unique_id=1349009360]
+width = 48.0
+default_color = Color(0.76, 0.64, 0.45, 1)
+joint_mode = 2
+
+[node name="EnemyPath" type="Path2D" parent="." unique_id=473401183]
+curve = SubResource("Curve2D_path")
+
+[node name="SpawnTimer" type="Timer" parent="." unique_id=1405438207]
+wait_time = 1.5
+autostart = true
+
+[node name="TowerRanges" type="SubViewportContainer" parent="." unique_id=1072676388]
+material = SubResource("ShaderMaterial_wcngd")
+offset_right = 512.0
+offset_bottom = 512.0
+
+[node name="SubViewport" type="SubViewport" parent="TowerRanges" unique_id=2075755302]
+handle_input_locally = false
+render_target_update_mode = 4
+
+[node name="ColorRect" type="ColorRect" parent="TowerRanges/SubViewport" unique_id=2038587030 groups=["requires_redraw"]]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+script = ExtResource("5_hnne4")
+
+[node name="NonPlacableAreas" type="SubViewportContainer" parent="." unique_id=900224286]
+material = SubResource("ShaderMaterial_hnne4")
+offset_right = 512.0
+offset_bottom = 512.0
+
+[node name="SubViewport" type="SubViewport" parent="NonPlacableAreas" unique_id=1842063170]
+handle_input_locally = false
+render_target_update_mode = 4
+
+[node name="ColorRect" type="ColorRect" parent="NonPlacableAreas/SubViewport" unique_id=979519454 groups=["requires_redraw"]]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+script = ExtResource("6_vpf64")
+
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
+[connection signal="draw" from="TowerRanges/SubViewport/ColorRect" to="TowerRanges" method="_on_color_rect_draw"]
+[connection signal="draw" from="NonPlacableAreas/SubViewport/ColorRect" to="NonPlacableAreas" method="_on_color_rect_draw"]
