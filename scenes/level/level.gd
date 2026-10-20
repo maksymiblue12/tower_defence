@@ -21,11 +21,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 func resize_subviewports():
 	var s=get_viewport_rect().size
-	$TowerRanges.size=s
-	$TowerRanges/SubViewport.size=s
-	$NonPlacableAreas.size=s
-	$NonPlacableAreas/SubViewport.size=s
-	$NonPlacableAreas/SubViewport/ColorRect.path_line=$EnemyPath
+	$Overlays.size=s
+	$Overlays/TowerRanges.size=s
+	$Overlays/NonPlacableAreas.size=s
+	$Overlays/NonPlacableAreas/ColorRect.path_line=$EnemyPath
 		
 func can_place_tower(pos:Vector2):
 	if (!GameState.can_afford_tower()):
@@ -50,8 +49,12 @@ func _on_spawn_timer_timeout() -> void:
 	if (!GameState.is_wave_active):
 		$SpawnTimer.stop()
 		return
+	var t=GameState.get_next_enemy_type()
+	if (t==null):
+		$SpawnTimer.stop()
+		return
 	var enemy:Enemy=ENEMY_SCENE.instantiate()
-	enemy.enemy_type=GameState.get_next_enemy_type()
+	enemy.enemy_type=t
 	enemy_path.add_child(enemy)
 	
 func start_wave():
@@ -59,3 +62,6 @@ func start_wave():
 		return
 	GameState.load_wave()
 	$SpawnTimer.start(GameState.spawn_interval)
+
+func has_killed_all_enemies(modifier:int=0):
+	return enemy_path.get_child_count()+modifier==0

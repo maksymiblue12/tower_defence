@@ -3,6 +3,8 @@ extends Node
 signal changed_money(new_amount:int)
 signal changed_health(new_amount:int,max_health:int)
 signal changed_tower_cost(new_amount:int)
+signal on_start_wave
+signal on_end_wave
 
 var lvl:Level
 
@@ -126,6 +128,8 @@ func update_health(amount:int):
 	
 func on_kill_enemy(e:Enemy):
 	update_money(e.coins)
+	if (enemies.is_empty() and lvl.has_killed_all_enemies(-1)):
+		end_wave()
 
 func on_enemy_reach_end(_e:Enemy):
 	update_health(-1)
@@ -147,11 +151,17 @@ func sync_ui():
 
 func get_next_enemy_type():
 	var t=enemies.pop_back()
-	if (enemies.is_empty()):
-		is_wave_active=false
+	if (enemies.is_empty() and lvl.has_killed_all_enemies()):
+		end_wave()
+		return null
 	return t
 
 func load_wave():
 	is_wave_active=true
 	spawn_interval=1.0
 	enemies=[Enemy.EnemyType.Normal,Enemy.EnemyType.Heavy]
+	on_start_wave.emit()
+
+func end_wave():
+	is_wave_active=false
+	on_end_wave.emit()

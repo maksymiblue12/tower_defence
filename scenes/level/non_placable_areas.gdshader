@@ -5,10 +5,9 @@ void fragment() {
 	vec4 col=vec4(0.,0.,0.,0.);
 	if (tex.r>0.01||tex.g>0.01||tex.b>0.01) {
 		float mx=max(tex.r,max(tex.g,tex.b));
-		if (mx==tex.r) {
+		if (tex.rgb==vec3(0,0,1)) {
 			col=vec4(1.,0.,0.,0.08);
-		}
-		else if (mx==tex.g) {
+		} else if (tex.rgb==vec3(0,1,0)) {
 			col=vec4(1.,0.,0.,0.32);
 		}
 	}

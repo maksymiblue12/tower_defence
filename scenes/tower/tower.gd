@@ -20,8 +20,8 @@ func _ready() -> void:
 func find_target():
 	var enemies=get_tree().get_nodes_in_group("enemy")
 	
-	var valid_enemies=enemies.filter(func (e:Enemy):return global_position.distance_to(e.global_position)<=tower_range)
-	valid_enemies.sort_custom(func (a:Enemy,b:Enemy):return a.progress_ratio>b.progress_ratio)
+	var valid_enemies=enemies.filter(func (e:Enemy): return global_position.distance_to(e.global_position)<=tower_range)
+	valid_enemies.sort_custom(func (a:Enemy,b:Enemy): return a.progress_ratio>b.progress_ratio)
 	
 	for e in valid_enemies:
 		if (GameState.predict_position(barrel.global_position,current_bullet,e).is_zero_approx()):
@@ -56,10 +56,6 @@ func _physics_process(_delta: float) -> void:
 	if (!check_target_is_valid()):
 		find_target()
 	point_at_target()
-	
-#func _draw() -> void:
-	#if (GameState.show_ranges):
-		#draw_circle(Vector2.ZERO,tower_range,Color(0.0, 0.0, 1.0, 0.08))
 
 func _on_shoot_timer_timeout() -> void:
 	shoot()

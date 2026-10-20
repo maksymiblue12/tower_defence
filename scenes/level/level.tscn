@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://c4rcrkxblithx" path="res://scenes/level/level.gd" id="1_script"]
 [ext_resource type="PackedScene" uid="uid://ciqxidjw5a5ni" path="res://scenes/tower/tower.tscn" id="3_i166f"]
 [ext_resource type="PackedScene" uid="uid://deqmm5f2g2fo0" path="res://UI/ui.tscn" id="3_qkmgm"]
-[ext_resource type="Shader" uid="uid://c1njjdco10gcb" path="res://scenes/level/non_placable_areas.gdshader" id="4_hnne4"]
 [ext_resource type="Shader" uid="uid://86yiattrl10j" path="res://scenes/level/tower_ranges.gdshader" id="4_qkmgm"]
 [ext_resource type="Script" uid="uid://dn1yh64pa02yd" path="res://scenes/level/tower_ranges.gd" id="5_hnne4"]
 [ext_resource type="Script" uid="uid://dp5070q35xxiw" path="res://scenes/level/non_placable_areas.gd" id="6_vpf64"]
@@ -16,9 +15,6 @@ point_count = 8
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wcngd"]
 shader = ExtResource("4_qkmgm")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_hnne4"]
-shader = ExtResource("4_hnne4")
 
 [node name="Level" type="Node2D" unique_id=31827107]
 script = ExtResource("1_script")
@@ -40,16 +36,16 @@ curve = SubResource("Curve2D_path")
 wait_time = 1.5
 autostart = true
 
-[node name="TowerRanges" type="SubViewportContainer" parent="." unique_id=1072676388]
+[node name="Overlays" type="SubViewportContainer" parent="." unique_id=1072676388]
 material = SubResource("ShaderMaterial_wcngd")
 offset_right = 512.0
 offset_bottom = 512.0
 
-[node name="SubViewport" type="SubViewport" parent="TowerRanges" unique_id=2075755302]
+[node name="TowerRanges" type="SubViewport" parent="Overlays" unique_id=2075755302]
 handle_input_locally = false
 render_target_update_mode = 4
 
-[node name="ColorRect" type="ColorRect" parent="TowerRanges/SubViewport" unique_id=2038587030 groups=["requires_redraw"]]
+[node name="ColorRect" type="ColorRect" parent="Overlays/TowerRanges" unique_id=2038587030 groups=["requires_redraw"]]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -58,16 +54,11 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 script = ExtResource("5_hnne4")
 
-[node name="NonPlacableAreas" type="SubViewportContainer" parent="." unique_id=900224286]
-material = SubResource("ShaderMaterial_hnne4")
-offset_right = 512.0
-offset_bottom = 512.0
-
-[node name="SubViewport" type="SubViewport" parent="NonPlacableAreas" unique_id=1842063170]
+[node name="NonPlacableAreas" type="SubViewport" parent="Overlays" unique_id=1842063170]
 handle_input_locally = false
 render_target_update_mode = 4
 
-[node name="ColorRect" type="ColorRect" parent="NonPlacableAreas/SubViewport" unique_id=979519454 groups=["requires_redraw"]]
+[node name="ColorRect" type="ColorRect" parent="Overlays/NonPlacableAreas" unique_id=979519454 groups=["requires_redraw"]]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -77,5 +68,4 @@ color = Color(0, 0, 0, 1)
 script = ExtResource("6_vpf64")
 
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
-[connection signal="draw" from="TowerRanges/SubViewport/ColorRect" to="TowerRanges" method="_on_color_rect_draw"]
-[connection signal="draw" from="NonPlacableAreas/SubViewport/ColorRect" to="NonPlacableAreas" method="_on_color_rect_draw"]
+[connection signal="draw" from="Overlays/TowerRanges/ColorRect" to="Overlays" method="_on_color_rect_draw"]
