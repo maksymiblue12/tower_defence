@@ -4,7 +4,7 @@ extends Node2D
 @onready var barrel:Marker2D=$Turret/Barrel
 
 @export var tower_range:float=200.0
-@export var shoot_delay:float=1.0
+@export var shoot_delay:float=0.75
 
 var BULLET=preload("res://scenes/bullet/bullet.tscn")
 

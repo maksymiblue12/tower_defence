@@ -210,6 +210,17 @@ layout_mode = 2
 size_flags_vertical = 8
 alignment = 2
 
+[node name="WaveLabel" type="Label" parent="MarginContainer/BottomBarRight" unique_id=1061674093]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.7019608, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 25
+text = "Wave 1"
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/BottomBarRight" unique_id=166746720]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
 [node name="StartWave" type="Button" parent="MarginContainer/BottomBarRight" unique_id=1736300176]
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_hat8c")

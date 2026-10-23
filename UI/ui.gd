@@ -7,6 +7,7 @@ extends CanvasLayer
 @onready var heart_container=$MarginContainer/HeartContainer
 @onready var start_wave_button=$MarginContainer/BottomBarRight/StartWave
 @onready var start_wave_signal=$MarginContainer/BottomBarRight/StartWave.pressed
+@onready var wave_number_label=$MarginContainer/BottomBarRight/WaveLabel
 
 var FULL=preload("res://UI/full.tscn")
 var EMPTY=preload("res://UI/empty.tscn")
@@ -15,6 +16,7 @@ func _ready() -> void:
 	GameState.changed_money.connect(self.on_changed_money)
 	GameState.changed_health.connect(self.on_changed_health)
 	GameState.changed_tower_cost.connect(self.on_changed_tower_cost)
+	GameState.on_change_wave.connect(self.on_change_wave)
 	GameState.on_start_wave.connect(self.on_start_wave)
 	GameState.on_end_wave.connect(self.on_end_wave)
 	GameState.sync_ui()
@@ -40,3 +42,6 @@ func on_start_wave():
 
 func on_end_wave():
 	start_wave_button.disabled=false
+
+func on_change_wave(wave_number:int):
+	wave_number_label.text="Wave "+str(wave_number)

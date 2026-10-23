@@ -14,6 +14,12 @@ func _ready() -> void:
 	resize_subviewports()
 	path_line.points=enemy_path.curve.get_baked_points()
 	$UI.start_wave_signal.connect(self.start_wave)
+	#var t=self.create_timer(1)
+	#t.timeout.connect(self.ttt)
+	#t.start()
+	
+func ttt(cal:Callable):
+	cal.call()
 	
 func _unhandled_input(event: InputEvent) -> void:
 	if (event.is_action_pressed("mouse_left")):
@@ -44,17 +50,12 @@ func add_tower(pos:Vector2):
 	var tower=TOWER.instantiate()
 	add_child(tower)
 	tower.global_position=pos
-
-func _on_spawn_timer_timeout() -> void:
-	return
-	if (!GameState.is_wave_active):
-		$SpawnTimer.stop()
-		return
-	var t=GameState.get_next_enemy_type()
-	if (t==null):
-		$SpawnTimer.stop()
-		return
-	add_enemy(t)
+	
+func create_timer(interval:int):
+	var t:Timer=Timer.new()
+	add_child(t)
+	t.wait_time=interval
+	return t
 	
 func add_enemy(type:Enemy.EnemyType):
 	var enemy:Enemy=ENEMY_SCENE.instantiate()
@@ -65,7 +66,6 @@ func start_wave():
 	if (GameState.is_wave_active):
 		return
 	GameState.load_wave()
-	$SpawnTimer.start(GameState.spawn_interval)
 
 func has_killed_all_enemies(modifier:int=0):
 	return enemy_path.get_child_count()+modifier==0

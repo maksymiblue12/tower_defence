@@ -51,6 +51,20 @@ _data = {
 &"damage": SubResource("Animation_40wdo")
 }
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tjssy"]
+bg_color = Color(0.23, 0.23, 0.23, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pijsi"]
+bg_color = Color(0.14549997, 0.97, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
 [node name="Enemy" type="PathFollow2D" unique_id=308481409 groups=["enemy"]]
 z_index = 2
 rotates = false
@@ -73,3 +87,34 @@ shape = SubResource("CircleShape2D_hitbox")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1813437700]
 libraries/ = SubResource("AnimationLibrary_tjssy")
+
+[node name="HealthBar" type="Control" parent="." unique_id=1498818797]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Bg" type="Panel" parent="HealthBar" unique_id=797250382]
+custom_minimum_size = Vector2(0, 10)
+custom_maximum_size = Vector2(-1, 10)
+layout_mode = 0
+offset_top = -12.0
+offset_right = 40.0
+offset_bottom = -2.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_tjssy")
+
+[node name="Health" type="Panel" parent="HealthBar/Bg" unique_id=1247387023]
+custom_minimum_size = Vector2(0, 10)
+custom_maximum_size = Vector2(-1, 10)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 10.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_pijsi")

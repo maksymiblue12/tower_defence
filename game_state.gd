@@ -3,6 +3,7 @@ extends Node
 signal changed_money(new_amount:int)
 signal changed_health(new_amount:int,max_health:int)
 signal changed_tower_cost(new_amount:int)
+signal on_change_wave(wave_number:int)
 signal on_start_wave
 signal on_end_wave
 
@@ -10,16 +11,20 @@ var lvl:Level
 
 var show_ranges:bool=false
 var is_wave_active:bool=false
-var spawn_interval:float=-1.0
-var enemies:Array[Enemy.EnemyType]=[]
-var money:int=5
+var finished_emitting:bool=false
+var money:int
 var max_health:int=5
 var health:int=max_health
 
-var tower_cost:int=5
+var base_tower_cost:int=5
+var tower_cost:int=base_tower_cost
+var towers_placed:int=0
+
+var current_wave:int=1
 
 func _init() -> void:
 	create_keybinds()
+	money=get_tower_cost(0)+get_tower_cost(1)
 
 func create_keybind(keybind_name:String,key:Key):
 	InputMap.add_action(keybind_name)
@@ -128,7 +133,7 @@ func update_health(amount:int):
 	
 func on_kill_enemy(e:Enemy):
 	update_money(e.coins)
-	if (enemies.is_empty() and lvl.has_killed_all_enemies(-1)):
+	if (finished_emitting and lvl.has_killed_all_enemies(-1)):
 		end_wave()
 
 func on_enemy_reach_end(_e:Enemy):
@@ -137,9 +142,15 @@ func on_enemy_reach_end(_e:Enemy):
 func can_afford_tower():
 	return money>=tower_cost
 	
+func get_tower_cost(index:int):
+	var x:int=base_tower_cost
+	x=roundi(x*pow(1.5,index))
+	return x
+	
 func on_place_tower():
 	update_money(-tower_cost)
-	tower_cost=roundi(tower_cost*1.5)
+	towers_placed+=1
+	tower_cost=get_tower_cost(towers_placed)
 	changed_tower_cost.emit(tower_cost)
 	for node in get_tree().get_nodes_in_group("requires_redraw"):
 		node.queue_redraw()
@@ -148,21 +159,19 @@ func sync_ui():
 	changed_money.emit(money)
 	changed_health.emit(health,max_health)
 	changed_tower_cost.emit(tower_cost)
-
-func get_next_enemy_type():
-	var t=enemies.pop_back()
-	if (enemies.is_empty() and lvl.has_killed_all_enemies()):
-		end_wave()
-		return null
-	return t
+	on_change_wave.emit(current_wave)
 
 func load_wave():
 	is_wave_active=true
-	spawn_interval=1.0
-	WaveCreator.load("wave1")
-	enemies=[Enemy.EnemyType.Normal,Enemy.EnemyType.Heavy,Enemy.EnemyType.Fast ]
+	finished_emitting=false
+	WaveCreator.load(lvl,str(current_wave))
 	on_start_wave.emit()
 
 func end_wave():
 	is_wave_active=false
+	current_wave=min(current_wave+1,WaveCreator.max_wave)
+	on_change_wave.emit(current_wave)
 	on_end_wave.emit()
+
+func end_emitting():
+	finished_emitting=true
