@@ -46,6 +46,7 @@ func add_tower(pos:Vector2):
 	tower.global_position=pos
 
 func _on_spawn_timer_timeout() -> void:
+	return
 	if (!GameState.is_wave_active):
 		$SpawnTimer.stop()
 		return
@@ -53,8 +54,11 @@ func _on_spawn_timer_timeout() -> void:
 	if (t==null):
 		$SpawnTimer.stop()
 		return
+	add_enemy(t)
+	
+func add_enemy(type:Enemy.EnemyType):
 	var enemy:Enemy=ENEMY_SCENE.instantiate()
-	enemy.enemy_type=t
+	enemy.enemy_type=type
 	enemy_path.add_child(enemy)
 	
 func start_wave():

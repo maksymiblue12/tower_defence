@@ -159,7 +159,8 @@ func get_next_enemy_type():
 func load_wave():
 	is_wave_active=true
 	spawn_interval=1.0
-	enemies=[Enemy.EnemyType.Normal,Enemy.EnemyType.Heavy]
+	WaveCreator.load("wave1")
+	enemies=[Enemy.EnemyType.Normal,Enemy.EnemyType.Heavy,Enemy.EnemyType.Fast ]
 	on_start_wave.emit()
 
 func end_wave():
